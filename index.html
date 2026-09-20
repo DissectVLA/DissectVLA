@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- ======================================================================
+       Project page for:
+       "Dissecting Advantage-Guided Post-Training for Vision-Language-Action Policies"
+       Built on the Academic Project Page Template (see footer for credit).
+
+       待补充的位置都用 TODO 注释标出；视频/PDF 就绪后按注释替换即可。
+       ====================================================================== -->
+
+  <!-- Primary Meta Tags -->
+  <meta name="title" content="Dissecting Advantage-Guided Post-Training for Vision-Language-Action Policies">
+  <meta name="description" content="A staged empirical study of advantage-guided VLA post-training: n-step TD advantage construction, value-based calibration, and continuous advantage weighting on four real-world bimanual tasks.">
+  <meta name="keywords" content="vision-language-action, VLA post-training, advantage-guided reinforcement learning, offline reinforcement learning, IQL, advantage weighted regression, bimanual manipulation, robot learning">
+  <meta name="author" content="Jiahang Cao, Hanye Zhao, Hang Lai, Shenyu Zhang, Xiaoshen Han, Xinghang Li, Futeng Liu, Wanli Peng, Heyun Wang, Yunhong Wang, Jason Li, Yong Yu, Weinan Zhang">
+  <meta name="robots" content="index, follow">
+  <meta name="language" content="English">
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Shanghai Jiao Tong University &middot; Xiaomi Robotics">
+  <meta property="og:title" content="Dissecting Advantage-Guided Post-Training for Vision-Language-Action Policies">
+  <meta property="og:description" content="A staged empirical study of advantage-guided VLA post-training: n-step TD advantage construction, value-based calibration, and continuous advantage weighting.">
+  <!-- TODO(域名): 替换为真实站点地址，例如 https://<user>.github.io/<repo>/ -->
+  <meta property="og:url" content="https://YOUR_DOMAIN/advantage-guided-vla/">
+  <!-- TODO(社交预览图): 制作 1200x630 的 static/images/social_preview.png -->
+  <meta property="og:image" content="https://YOUR_DOMAIN/advantage-guided-vla/static/images/social_preview.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Three-stage study of advantage-guided VLA post-training">
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Dissecting Advantage-Guided Post-Training for Vision-Language-Action Policies">
+  <meta name="twitter:description" content="A staged empirical study of advantage-guided VLA post-training: construction, calibration, and utilization of critic-derived advantages.">
+  <meta name="twitter:image" content="https://YOUR_DOMAIN/advantage-guided-vla/static/images/social_preview.png">
+  <meta name="twitter:image:alt" content="Three-stage study of advantage-guided VLA post-training">
+
+  <!-- Academic / Google Scholar -->
+  <meta name="citation_title" content="Dissecting Advantage-Guided Post-Training for Vision-Language-Action Policies">
+  <meta name="citation_author" content="Cao, Jiahang">
+  <meta name="citation_author" content="Zhao, Hanye">
+  <meta name="citation_author" content="Lai, Hang">
+  <meta name="citation_author" content="Zhang, Shenyu">
+  <meta name="citation_author" content="Han, Xiaoshen">
+  <meta name="citation_author" content="Li, Xinghang">
+  <meta name="citation_author" content="Liu, Futeng">
+  <meta name="citation_author" content="Peng, Wanli">
+  <meta name="citation_author" content="Wang, Heyun">
+  <meta name="citation_author" content="Wang, Yunhong">
+  <meta name="citation_author" content="Li, Jason">
+  <meta name="citation_author" content="Yu, Yong">
+  <meta name="citation_author" content="Zhang, Weinan">
+  <meta name="citation_publication_date" content="2026">
+  <!-- TODO(PDF): 论文 PDF 放到 static/pdfs/paper.pdf 后启用 -->
+  <meta name="citation_pdf_url" content="https://YOUR_DOMAIN/advantage-guided-vla/static/pdfs/paper.pdf">
+
+  <!-- Additional SEO -->
+  <meta name="theme-color" content="#2563eb">
+  <meta name="msapplication-TileColor" content="#2563eb">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+
+  <!-- Preconnect for performance -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://ajax.googleapis.com">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net">
+
+  <title>Dissecting Advantage-Guided Post-Training for Vision-Language-Action Policies</title>
+
+  <!-- Favicon and App Icons -->
+  <!-- TODO(favicon): 建议替换 static/images/favicon.ico 为自己的图标 -->
+  <link rel="icon" type="image/x-icon" href="static/images/favicon.ico">
+  <link rel="apple-touch-icon" href="static/images/favicon.ico">
+
+  <!-- Critical CSS -->
+  <link rel="stylesheet" href="static/css/bulma.min.css">
+  <link rel="stylesheet" href="static/css/index.css">
+  <!-- ?v=N 是缓存戳：改完 project.css / project.js 后把数字 +1，
+       浏览器就一定会重新下载，不用依赖硬刷新。 -->
+  <link rel="stylesheet" href="static/css/project.css?v=3">
+
+  <!-- Non-critical CSS.
+       模板自带的 bulma-carousel / bulma-slider 已移除：本页没有轮播和滑块。
+       fontawesome.all.min.css 也已移除：模板没带 webfonts 目录，那份 CSS 里的
+       @font-face 全部指向缺失文件，图标实际由下面的 fontawesome.all.min.js
+       （SVG+JS 版）渲染。若日后要加轮播，从模板目录把对应的
+       bulma-carousel.min.{css,js} 拷回来，并恢复 static/js/index.js 里的调用。 -->
+  <link rel="preload" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  </noscript>
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Deferred JavaScript -->
+  <script defer src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="static/js/fontawesome.all.min.js"></script>
+  <script defer src="static/js/index.js"></script>
+  <script defer src="static/js/project.js?v=3"></script>
+
+  <!-- Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ScholarlyArticle",
+    "headline": "Dissecting Advantage-Guided Post-Training for Vision-Language-Action Policies",
+    "description": "A staged empirical study that separates advantage construction, calibration, and utilization in advantage-guided post-training of vision-language-action policies.",
+    "author": [
+      { "@type": "Person", "name": "Jiahang Cao" },
+      { "@type": "Person", "name": "Hanye Zhao" },
+      { "@type": "Person", "name": "Hang Lai" },
+      { "@type": "Person", "name": "Shenyu Zhang" },
+      { "@type": "Person", "name": "Xiaoshen Han" },
+      { "@type": "Person", "name": "Xinghang Li" },
+      { "@type": "Person", "name": "Futeng Liu" },
+      { "@type": "Person", "name": "Wanli Peng" },
+      { "@type": "Person", "name": "Heyun Wang" },
+      { "@type": "Person", "name": "Yunhong Wang" },
+      { "@type": "Person", "name": "Jason Li" },
+      { "@type": "Person", "name": "Yong Yu" },
+      { "@type": "Person", "name": "Weinan Zhang" }
+    ],
+    "datePublished": "2026-01-01",
+    "url": "https://YOUR_DOMAIN/advantage-guided-vla/",
+    "keywords": [
+      "vision-language-action",
+      "advantage-guided reinforcement learning",
+      "offline reinforcement learning",
+      "robot manipulation"
+    ],
+    "isAccessibleForFree": true,
+    "license": "https://creativecommons.org/licenses/by-sa/4.0/"
+  }
+  </script>
+</head>
+<body>
+
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+
+  <!-- Scroll to Top Button -->
+  <button class="scroll-to-top" onclick="scrollToTop()" title="Scroll to top" aria-label="Scroll to top">
+    <i class="fas fa-chevron-up" aria-hidden="true"></i>
+  </button>
+
+  <!--
+    TODO(可选): 模板自带的 "More Works" 悬浮下拉。如需展示同组其他工作，
+    取消注释并填写条目即可。
+  <div class="more-works-container">
+    <button class="more-works-btn" onclick="toggleMoreWorks()" title="View More Works from Our Lab">
+      <i class="fas fa-flask"></i>
+      More Works
+      <i class="fas fa-chevron-down dropdown-arrow"></i>
+    </button>
+    <div class="more-works-dropdown" id="moreWorksDropdown">
+      <div class="dropdown-header">
+        <h4>More Works from Our Lab</h4>
+        <button class="close-btn" onclick="toggleMoreWorks()"><i class="fas fa-times"></i></button>
+      </div>
+      <div class="works-list">
+        <a href="https://arxiv.org/abs/PAPER_ID" class="work-item" target="_blank" rel="noopener">
+          <div class="work-info">
+            <h5>Paper title</h5>
+            <p>One-sentence description.</p>
+            <span class="work-venue">Venue Year</span>
+          </div>
+          <i class="fas fa-external-link-alt"></i>
+        </a>
+      </div>
+    </div>
+  </div>
+  -->
+
+  <main id="main-content">
+
+  <!-- ===================== Title / authors / links ===================== -->
+  <section class="hero">
+    <div class="hero-body">
+      <div class="container is-max-widescreen">
+        <div class="columns is-centered">
+          <div class="column has-text-centered">
+            <h1 class="title is-1 publication-title">
+              Dissecting Advantage-Guided Post-Training for<br>Vision-Language-Action Policies
+            </h1>
+
+            <!-- TODO(主页链接): 如需给作者加个人主页，把名字包成
+                 <a href="HOMEPAGE" target="_blank" rel="noopener">Jiahang Cao</a> 即可。
+                 作者列表固定分两行，<br> 的位置与论文一致（6 + 7）。 -->
+            <div class="publication-authors author-list">
+              <span class="author-block">Jiahang Cao<sup>1&dagger;*</sup>,</span>
+              <span class="author-block">Hanye Zhao<sup>1&dagger;*</sup>,</span>
+              <span class="author-block">Hang Lai<sup>2&#9993;</sup>,</span>
+              <span class="author-block">Shenyu Zhang<sup>2</sup>,</span>
+              <span class="author-block">Xiaoshen Han<sup>1&dagger;</sup>,</span>
+              <span class="author-block">Xinghang Li<sup>2</sup>,</span>
+              <br>
+              <span class="author-block">Futeng Liu<sup>2</sup>,</span>
+              <span class="author-block">Wanli Peng<sup>2</sup>,</span>
+              <span class="author-block">Heyun Wang<sup>2</sup>,</span>
+              <span class="author-block">Yunhong Wang<sup>2</sup>,</span>
+              <span class="author-block">Jason Li<sup>2</sup>,</span>
+              <span class="author-block">Yong Yu<sup>1</sup>,</span>
+              <span class="author-block">Weinan Zhang<sup>1&#9993;</sup></span>
+            </div>
+
+            <div class="is-size-6 publication-authors">
+              <span class="author-block"><sup>1</sup>School of Computer Science, Shanghai Jiao Tong University</span>
+              <span class="author-block"><sup>2</sup>Xiaomi Robotics</span>
+            </div>
+
+            <div class="publication-authors">
+              <span class="eql-cntrb">
+                <small>
+                  <sup>*</sup>Equal contribution &nbsp;&middot;&nbsp;
+                  <sup>&#9993;</sup>Corresponding author &nbsp;&middot;&nbsp;
+                  <sup>&dagger;</sup>Work done during internship at Xiaomi Robotics
+                </small>
+              </span>
+            </div>
+
+            <div class="column has-text-centered">
+              <div class="publication-links">
+                <!-- TODO(PDF): 把论文 PDF 放到 static/pdfs/paper.pdf，然后删除 is-tbd 类 -->
+                <span class="link-block">
+                  <a href="static/pdfs/paper.pdf" target="_blank" rel="noopener"
+                     class="external-link button is-normal is-rounded is-dark is-tbd"
+                     aria-disabled="true" tabindex="-1" title="Paper PDF coming soon">
+                    <span class="icon"><i class="fas fa-file-pdf" aria-hidden="true"></i></span>
+                    <span>Paper</span>
+                  </a>
+                </span>
+
+                <!-- TODO(arXiv): 填入 arXiv ID 并删除 is-tbd 类 -->
+                <span class="link-block">
+                  <a href="https://arxiv.org/abs/ARXIV_ID" target="_blank" rel="noopener"
+                     class="external-link button is-normal is-rounded is-dark is-tbd"
+                     aria-disabled="true" tabindex="-1" title="arXiv link coming soon">
+                    <span class="icon"><i class="ai ai-arxiv" aria-hidden="true"></i></span>
+                    <span>arXiv</span>
+                  </a>
+                </span>
+
+                <!-- TODO(可选): 如需放代码链接，复制上面的 link-block 换成
+                     GitHub 图标 <i class="fab fa-github"></i> 即可 -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== Teaser video ===================== -->
+  <section class="hero teaser">
+    <div class="container is-max-desktop">
+      <div class="hero-body">
+
+        <!-- 实验效果示意视频；完整版在页面末尾的 "Full Video" 一节。
+             不自动播放：由访客点击播放按钮触发。poster 是第 5 秒的截帧，
+             用 ffmpeg 重新生成： ffmpeg -ss 5 -i static/videos/teaser.mp4 \
+               -frames:v 1 -q:v 3 static/images/teaser_poster.jpg -->
+        <video id="teaser-video" controls muted loop playsinline
+               poster="static/images/teaser_poster.jpg"
+               preload="metadata" style="width:100%;border-radius:16px;">
+          <source src="static/videos/teaser.mp4" type="video/mp4">
+        </video>
+
+        <h2 class="subtitle has-text-centered" style="margin-top:1.5rem;">
+          One-shot consecutive success of four real-robot tasks.
+        </h2>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== Abstract ===================== -->
+  <section class="section hero is-light" id="abstract">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-four-fifths">
+          <h2 class="title is-3">Abstract</h2>
+          <div class="content has-text-justified">
+            <p>
+              Advantage-guided reinforcement learning provides a practical way to post-train
+              vision-language-action (VLA) policies using limited robot data. However, its performance depends on
+              several coupled choices, including how critic-derived advantages are constructed, calibrated, and used
+              for policy training. Existing recipes often combine these choices into a single end-to-end procedure,
+              making their individual effects difficult to identify.
+            </p>
+            <p>
+              In this work, we dissect advantage-guided VLA post-training through a controlled empirical study that
+              separates these design choices while accounting for their distinct estimands. We develop stage-specific
+              offline evaluation methods to screen alternative choices efficiently, without requiring extensive
+              real-robot policy evaluations for every possible combination. The staged evaluation identifies a modular
+              recipe that combines temporal-difference advantage construction, group-wise calibration, and continuous
+              advantage weighting. Across four real-world bimanual tasks, the resulting recipe improves mean task
+              progress and success over the SFT initialization by 0.42 and 0.63, respectively. Moreover, the proposed
+              evaluation diagnostics show an overall alignment with downstream real-world performance, supporting
+              their use for interpreting empirical outcomes and selecting advantage-guided post-training designs in
+              practice.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== Overview figure + three stages ===================== -->
+  <section class="section" id="approach">
+    <div class="container is-max-desktop">
+      <h2 class="title is-3 has-text-centered">Three Stages, Three Questions</h2>
+      <p class="section-lead has-text-centered">
+        We decompose advantage-guided post-training into construction, calibration, and utilization, screen the first
+        two stages with offline diagnostics on a fixed dataset, and reserve real-robot training and evaluation for the
+        last stage.
+      </p>
+
+      <figure class="paper-figure">
+        <img src="static/images/teaser.png"
+             alt="Three-stage study design: Stage I constructs advantages, Stage II calibrates advantage scale, Stage III extracts the policy."
+             loading="lazy">
+        <!-- <figcaption>
+          <strong>Overview of the three-stage study.</strong>
+          Stage&nbsp;I compares advantage construction schemes, Stage&nbsp;II varies the grouping rule used for
+          advantage calibration, and Stage&nbsp;III examines how calibrated advantages weight samples during
+          real-robot policy training.
+        </figcaption> -->
+      </figure>
+
+      <div class="card-grid" style="margin-top:2.5rem;">
+        <article class="info-card">
+          <span class="card-eyebrow">Stage I &middot; RQ1</span>
+          <h3>Advantage construction</h3>
+          <p>
+            Four value-learning schemes (IQL, SARSA, ALOE, Monte Carlo) combined with <em>Q&minus;V</em> and
+            <em>n</em>-step TD advantages, scored by two pairwise ordering diagnostics:
+            intervention ordering <em>R</em><sub>int</sub> and progress ordering <em>R</em><sub>prog</sub>.
+          </p>
+          <span class="card-pick"><i class="fas fa-check" aria-hidden="true"></i><span>Selected: IQL + <em>n</em>-step TD</span></span>
+        </article>
+
+        <article class="info-card">
+          <span class="card-eyebrow">Stage II &middot; RQ2</span>
+          <h3>Advantage calibration</h3>
+          <p>
+            Raw, Global, Temporal, and Value grouping rules, compared by &eta;<sup>2</sup>, the share of advantage
+            variance explained by sub-task identity. Lower &eta;<sup>2</sup> means advantages are more comparable
+            across sub-tasks.
+          </p>
+          <span class="card-pick"><i class="fas fa-check" aria-hidden="true"></i><span>Selected: Value-based grouping</span></span>
+        </article>
+
+        <article class="info-card">
+          <span class="card-eyebrow">Stage III &middot; RQ3</span>
+          <h3>Advantage utilization</h3>
+          <p>
+            Same &pi;<sub>0.5</sub> flow-matching actor, same data, same budget; only the per-sample weight changes:
+            SFT Init, source-based DAgger, continuous Weight, and hard top-half Filter.
+          </p>
+          <span class="card-pick"><i class="fas fa-check" aria-hidden="true"></i><span>Selected: continuous Weight</span></span>
+        </article>
+      </div>
+
+      <div class="recipe-strip">
+        <span class="recipe-step">IQL critic + <em>n</em>-step TD advantage</span>
+        <span class="recipe-arrow"><i class="fas fa-arrow-right" aria-hidden="true"></i></span>
+        <span class="recipe-step">Value-based group calibration</span>
+        <span class="recipe-arrow"><i class="fas fa-arrow-right" aria-hidden="true"></i></span>
+        <span class="recipe-step">Continuous advantage weighting</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== Offline diagnostics ===================== -->
+  <section class="section hero is-light" id="diagnostics">
+    <div class="container is-max-desktop">
+      <h2 class="title is-3 has-text-centered">Offline Diagnostics</h2>
+      <p class="section-lead has-text-centered">
+        Stages&nbsp;I and&nbsp;II are screened on the fixed offline dataset, before any actor update. Stage&nbsp;I asks
+        which advantages recover the expected quality orderings among dataset actions; Stage&nbsp;II asks whether
+        calibrated advantages stay comparable across sub-tasks.
+      </p>
+
+      <h3 class="title subsection-title has-text-centered">Stage&nbsp;I (RQ1): advantage construction</h3>
+      <p class="section-lead">
+        Because the compared constructions estimate different quantities, we evaluate the <em>orderings</em> they
+        induce instead of their raw values. Chance ordering is 0.5 for both diagnostics.
+      </p>
+
+      <figure class="paper-figure">
+        <img src="static/images/sample_contrast.jpg"
+             alt="Representative intervention and progress pairs across the four real-world tasks."
+             loading="lazy">
+        <figcaption>
+          <strong>What the diagnostics compare.</strong>
+          Intervention pairs (left) contrast failing policy behavior with the recovery after a human takeover;
+          progress pairs (right) contrast stalled and advancing behavior within the same sub-task. Both ask whether
+          the better behavior receives the higher estimated advantage.
+        </figcaption>
+      </figure>
+
+      <figure class="paper-figure" style="margin-top:2rem;">
+        <img src="static/images/rq1_diagnostics.png"
+             alt="Intervention and progress ordering diagnostics for seven advantage-construction configurations on four tasks."
+             loading="lazy">
+        <figcaption>
+          <strong>Stage&nbsp;I (RQ1).</strong>
+          For IQL, SARSA, and ALOE critics, <em>n</em>-step TD beats <em>Q&minus;V</em> on every task and both
+          diagnostics, with <em>R</em><sub>int</sub> from 0.639 to 0.773 and <em>R</em><sub>prog</sub> from 0.805 to
+          0.953. <em>Q&minus;V</em> and Monte Carlo stay close to chance.
+        </figcaption>
+      </figure>
+
+      <div style="margin-top:3rem;">
+        <h3 class="title subsection-title has-text-centered">Stage&nbsp;II (RQ2): calibration comparability</h3>
+        <div class="table-wrapper">
+          <table class="results">
+            <caption>
+              &eta;<sup>2</sup> is the share of total advantage variance explained by sub-task identity; lower is
+              better. Value-based grouping gives the lowest mean, so it is carried into Stage&nbsp;III.
+            </caption>
+            <thead>
+              <tr>
+                <th scope="col">Calibration</th>
+                <th scope="col">PhoneE</th>
+                <th scope="col">PhoneH</th>
+                <th scope="col">Box</th>
+                <th scope="col">Printer</th>
+                <th scope="col" class="col-sep">Mean</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">Raw</th>
+                <td>0.072</td><td>0.063</td><td>0.106</td><td>0.127</td>
+                <td class="col-sep">0.092</td>
+              </tr>
+              <tr>
+                <th scope="row">Global</th>
+                <td>0.057</td><td>0.051</td><td>0.090</td><td>0.120</td>
+                <td class="col-sep">0.080</td>
+              </tr>
+              <tr>
+                <th scope="row">Temporal</th>
+                <td>0.071</td><td class="best">0.023</td><td>0.053</td><td>0.028</td>
+                <td class="col-sep">0.044</td>
+              </tr>
+              <tr class="is-highlight">
+                <th scope="row">Value</th>
+                <td class="best">0.053</td><td>0.027</td><td class="best">0.013</td><td class="best">0.010</td>
+                <td class="col-sep best">0.026</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== Real-world tasks ===================== -->
+  <section class="section" id="tasks">
+    <div class="container is-max-desktop">
+      <h2 class="title is-3 has-text-centered">Real-World Tasks</h2>
+      <p class="section-lead has-text-centered">
+        Four bimanual manipulation tasks on a platform with two 6-DoF arms and three RGB fisheye cameras. The policy
+        predicts chunks of 30 end-effector actions executed at 30&nbsp;Hz.
+      </p>
+
+      <figure class="paper-figure">
+        <img src="static/images/realscene.jpg"
+             alt="Representative scenes of the four real-world manipulation tasks: Pack Phone Easy, Pack Phone Hard, Pack Box, and Refill Printer Paper."
+             loading="lazy">
+        <figcaption>
+          Representative scenes from the four real-world tasks:
+          (a) Pack Phone Easy, (b) Pack Phone Hard, (c) Pack Box, (d) Refill Printer Paper.
+        </figcaption>
+      </figure>
+
+      <div class="card-grid is-two-cols" style="margin-top:2rem;">
+        <article class="info-card task-card">
+          <span class="card-eyebrow">PhoneE</span>
+          <h3>Pack Phone Easy</h3>
+          <p>Places a phone into its packaging box and closes the lid.</p>
+        </article>
+
+        <article class="info-card task-card">
+          <span class="card-eyebrow">PhoneH</span>
+          <h3>Pack Phone Hard</h3>
+          <p>A more complex box plus an accessory-insertion step, giving a longer horizon and higher difficulty.</p>
+        </article>
+
+        <article class="info-card task-card">
+          <span class="card-eyebrow">Box</span>
+          <h3>Pack Box</h3>
+          <p>Places three objects into a carton, folds the flaps, and presses the side tabs to close it.</p>
+        </article>
+
+        <article class="info-card task-card">
+          <span class="card-eyebrow">Printer</span>
+          <h3>Refill Printer Paper</h3>
+          <p>Picks up a small stack of paper and loads it into the printer tray.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== Real-world results ===================== -->
+  <section class="section hero is-light" id="results">
+    <div class="container is-max-desktop">
+      <h2 class="title is-3 has-text-centered">Real-World Results</h2>
+
+      <h3 class="title subsection-title has-text-centered">Stage&nbsp;III (RQ3): advantage utilization</h3>
+      <p class="section-lead">
+        All conditions start from the same SFT checkpoint and share data, budget, and evaluation schedule; only the
+        per-sample weight differs. Each task column averages 20 real-robot trials per condition.
+      </p>
+
+      <div class="table-wrapper">
+        <table class="results">
+          <caption>
+            Task progress is the fraction of completed sub-tasks at termination; task success requires all sub-tasks
+            to be completed. Higher is better.
+          </caption>
+          <thead>
+            <tr class="group-head">
+              <th scope="col"></th>
+              <th scope="colgroup" colspan="5">Task progress</th>
+              <th scope="colgroup" colspan="5" class="col-sep">Task success</th>
+            </tr>
+            <tr>
+              <th scope="col">Condition</th>
+              <th scope="col">PhoneE</th>
+              <th scope="col">PhoneH</th>
+              <th scope="col">Box</th>
+              <th scope="col">Printer</th>
+              <th scope="col">Mean</th>
+              <th scope="col" class="col-sep">PhoneE</th>
+              <th scope="col">PhoneH</th>
+              <th scope="col">Box</th>
+              <th scope="col">Printer</th>
+              <th scope="col">Mean</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">SFT Init</th>
+              <td>0.50</td><td>0.32</td><td>0.69</td><td>0.24</td><td>0.44</td>
+              <td class="col-sep">0.30</td><td>0.00</td><td>0.15</td><td>0.00</td><td>0.11</td>
+            </tr>
+            <tr>
+              <th scope="row">DAgger</th>
+              <td>0.65</td><td>0.62</td><td>0.91</td><td>0.66</td><td>0.71</td>
+              <td class="col-sep">0.35</td><td>0.30</td><td>0.70</td><td>0.45</td><td>0.45</td>
+            </tr>
+            <tr class="is-highlight">
+              <th scope="row">Weight (ours)</th>
+              <td class="best">0.88</td><td class="best">0.81</td><td class="best">0.95</td>
+              <td class="best">0.79</td><td class="best">0.86</td>
+              <td class="col-sep best">0.80</td><td class="best">0.70</td><td class="best">0.80</td>
+              <td class="best">0.65</td><td class="best">0.74</td>
+            </tr>
+            <tr>
+              <th scope="row">Filter</th>
+              <td>0.78</td><td>0.69</td><td>0.91</td><td>0.60</td><td>0.75</td>
+              <td class="col-sep">0.70</td><td>0.40</td><td>0.55</td><td>0.35</td><td>0.50</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div style="margin-top:3.5rem;">
+        <h3 class="title subsection-title has-text-centered">Rollouts of the selected recipe</h3>
+        <p class="section-lead">
+          Policy rollouts on each of the four tasks, executed by the Weight condition from the table above.
+        </p>
+
+        <!-- 标签页式单播放器：切换标签即切换视频。
+             TODO(视频): 四个 rollout 视频按 data-video 里的文件名放进 static/videos/，
+             然后删除 .media-placeholder 并取消 <video> 注释即可；
+             切换逻辑在 static/js/project.js，占位状态下也能正常切换提示文字。 -->
+        <div class="video-tabs" id="rollout-tabs">
+          <div class="tab-buttons" role="tablist" aria-label="Task rollout videos">
+            <button type="button" class="tab-button is-active" role="tab" aria-selected="true"
+                    aria-controls="rollout-panel"
+                    data-video="static/videos/task_phone_easy.mp4"
+                    data-label="Pack Phone Easy"
+                    data-caption="Pack Phone Easy &mdash; places a phone into its packaging box and closes the lid.">
+              Pack Phone Easy
+            </button>
+            <button type="button" class="tab-button" role="tab" aria-selected="false"
+                    aria-controls="rollout-panel"
+                    data-video="static/videos/task_phone_hard.mp4"
+                    data-label="Pack Phone Hard"
+                    data-caption="Pack Phone Hard &mdash; a more complex box plus an accessory-insertion step, giving a longer horizon.">
+              Pack Phone Hard
+            </button>
+            <button type="button" class="tab-button" role="tab" aria-selected="false"
+                    aria-controls="rollout-panel"
+                    data-video="static/videos/task_box.mp4"
+                    data-label="Pack Box"
+                    data-caption="Pack Box &mdash; places three objects into a carton, folds the flaps, and presses the side tabs.">
+              Pack Box
+            </button>
+            <button type="button" class="tab-button" role="tab" aria-selected="false"
+                    aria-controls="rollout-panel"
+                    data-video="static/videos/task_printer.mp4"
+                    data-label="Refill Printer Paper"
+                    data-caption="Refill Printer Paper &mdash; picks up a small stack of paper and loads it into the printer tray.">
+              Refill Printer Paper
+            </button>
+          </div>
+
+          <div class="tab-panel" id="rollout-panel" role="tabpanel" aria-live="polite">
+            <!-- <div class="media-placeholder">
+              <i class="fas fa-video placeholder-icon" aria-hidden="true"></i>
+              <span class="placeholder-title">Pack Phone Easy rollout</span>
+              <span class="placeholder-hint">Coming soon &middot; <code>static/videos/task_phone_easy.mp4</code></span>
+            </div> -->
+            
+            <video id="rollout-video" controls muted loop playsinline preload="metadata">
+              <source src="static/videos/task_phone_easy.mp4" type="video/mp4">
+            </video>
+           
+            <p class="tab-caption">Pack Phone Easy &mdash; places a phone into its packaging box and closes the lid.</p>
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-top:3.5rem;">
+        <h3 class="title subsection-title has-text-centered">Ablation study: do the offline diagnostics predict real-robot outcomes?</h3>
+        <p class="section-lead">
+          Keeping the Weight rule fixed, we change one earlier stage at a time and re-evaluate on PhoneH and Printer:
+          the first four conditions vary the Stage-I construction, the last three vary the Stage-II calibration, and
+          the shared fourth condition is the reference recipe above. Higher Stage-I concordance and lower Stage-II
+          &eta;<sup>2</sup> come with higher real-world progress and success, which is what licenses screening these
+          choices offline.
+        </p>
+
+        <figure class="paper-figure is-narrow">
+          <img src="static/images/ablation.png"
+               alt="Ablations of advantage construction and calibration under fixed continuous weighting on PhoneH and Printer, with offline diagnostics overlaid."
+               loading="lazy">
+          <figcaption>
+            Bars show real-robot policy outcomes (left axis); lines show the offline diagnostics for the same
+            configuration (right axis). Stage-I and Stage-II labels below each panel identify what changed.
+          </figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== Full video ===================== -->
+  <section class="section" id="video">
+    <div class="container is-max-desktop">
+      <h2 class="title is-3 has-text-centered">Full Video</h2>
+      <p class="section-lead has-text-centered">
+        Complete walkthrough of the study: task definitions and sub-task breakdowns, the three staged comparisons,
+        and uncut real-robot rollouts.
+      </p>
+
+      <!-- TODO(视频): 完整视频放到 static/videos/teaser_full.mp4，删除下面的
+           .media-placeholder 并取消 <video> 注释。
+           若文件偏大（> ~20 MB），建议改用 YouTube/Bilibili 嵌入，
+           把 .publication-video + <iframe> 那段注释启用即可。 -->
+      <div class="media-placeholder">
+        <i class="fas fa-play-circle placeholder-icon" aria-hidden="true"></i>
+        <span class="placeholder-title">Full video</span>
+        <span class="placeholder-hint">Coming soon &middot; <code>static/videos/teaser_full.mp4</code></span>
+      </div>
+      <!--
+      <video controls muted playsinline preload="metadata" style="width:100%;border-radius:16px;">
+        <source src="static/videos/teaser_full.mp4" type="video/mp4">
+      </video>
+      -->
+      <!--
+      <div class="publication-video">
+        <iframe src="https://www.youtube.com/embed/YOUTUBE_VIDEO_ID"
+                title="Full video" frameborder="0"
+                allow="autoplay; encrypted-media" allowfullscreen></iframe>
+      </div>
+      -->
+    </div>
+  </section>
+
+  <!-- ===================== BibTeX ===================== -->
+  <section class="section" id="BibTeX">
+    <div class="container is-max-desktop content">
+      <div class="bibtex-header">
+        <h2 class="title">BibTeX</h2>
+        <button class="copy-bibtex-btn" onclick="copyBibTeX()" title="Copy BibTeX to clipboard">
+          <i class="fas fa-copy" aria-hidden="true"></i>
+          <span class="copy-text">Copy</span>
+        </button>
+      </div>
+      <!-- TODO(引用): 上线 arXiv 后补上 eprint / archivePrefix / primaryClass 字段 -->
+      <pre id="bibtex-code"><code>@article{cao2026dissecting,
+  title   = {Dissecting Advantage-Guided Post-Training for Vision-Language-Action Policies},
+  author  = {Cao, Jiahang and Zhao, Hanye and Lai, Hang and Zhang, Shenyu and Han, Xiaoshen
+             and Li, Xinghang and Liu, Futeng and Peng, Wanli and Wang, Heyun
+             and Wang, Yunhong and Li, Jason and Yu, Yong and Zhang, Weinan},
+  year    = {2026}
+}</code></pre>
+    </div>
+  </section>
+
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="columns is-centered">
+        <div class="column is-8">
+          <div class="content">
+            <p>
+              This page was built using the
+              <a href="https://github.com/eliahuhorwitz/Academic-project-page-template" target="_blank" rel="noopener">Academic Project Page Template</a>
+              which was adopted from the <a href="https://nerfies.github.io" target="_blank" rel="noopener">Nerfies</a> project page.
+              You are free to borrow the source code of this website, we just ask that you link back to this page in the footer.
+              <br>
+              This website is licensed under a
+              <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/" target="_blank">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

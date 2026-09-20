@@ -1,0 +1,497 @@
+/* ==========================================================================
+   project.css
+   Project-specific additions on top of the Academic Project Page Template.
+   Keep template files (index.css, bulma*.css) untouched so the template can
+   be updated independently.
+   ========================================================================== */
+
+/* --- Title -------------------------------------------------------------- */
+/* Sized so the hard <br> in index.html yields exactly two lines on desktop.
+   text-wrap: balance keeps the wrapping tidy once the viewport is narrower. */
+.publication-title {
+  font-size: 2.6rem !important;
+  text-wrap: balance;
+}
+
+@media screen and (max-width: 1024px) {
+  .publication-title {
+    font-size: 2.2rem !important;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .publication-title {
+    font-size: 1.9rem !important;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .publication-title {
+    font-size: 1.6rem !important;
+  }
+}
+
+/* --- Skip link (keyboard accessibility) ---------------------------------- */
+.skip-link {
+  position: absolute;
+  top: -3rem;
+  left: 1rem;
+  z-index: 1100;
+  padding: 0.6rem 1rem;
+  border-radius: var(--border-radius);
+  background: var(--primary-color);
+  color: #fff;
+  font-weight: 600;
+  text-decoration: none;
+  transition: top 0.2s ease-in-out;
+}
+
+.skip-link:focus {
+  top: 1rem;
+}
+
+/* --- Author / affiliation lines ------------------------------------------ */
+/* 13 authors: sized so each half of the list (split by <br> in index.html)
+   fits on one line, giving two rows instead of three. */
+.publication-authors.author-list {
+  font-size: 1.1rem;
+  line-height: 1.9;
+  margin-bottom: 1rem;
+}
+
+/* Never break inside a name. */
+.publication-authors .author-block {
+  white-space: nowrap;
+}
+
+@media screen and (max-width: 1024px) {
+  .publication-authors.author-list {
+    font-size: 1rem;
+  }
+}
+
+.publication-authors.is-size-6 {
+  color: var(--text-secondary);
+  margin-bottom: 0.5rem;
+}
+
+.publication-authors .eql-cntrb {
+  display: inline-block;
+  margin-bottom: 0.5rem;
+}
+
+/* Buttons for links that do not exist yet (arXiv id, code release, ...).
+   Remove the `is-tbd` class once the target exists to re-enable the link. */
+.button.is-tbd {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* --- Figures pulled from the paper --------------------------------------- */
+.paper-figure {
+  background: var(--background-primary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--shadow-md);
+  padding: 1rem;
+}
+
+.paper-figure img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: var(--border-radius);
+}
+
+/* Narrower figure for single-column plots that would look oversized full width. */
+.paper-figure.is-narrow {
+  max-width: 620px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.paper-figure figcaption {
+  margin-top: 1rem;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--text-secondary);
+  text-align: left;
+}
+
+/* --- Media placeholders (used until the videos are ready) ----------------- */
+.media-placeholder {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  text-align: center;
+  padding: 1.5rem;
+  border: 2px dashed var(--border-color);
+  border-radius: var(--border-radius-lg);
+  background:
+    repeating-linear-gradient(
+      45deg,
+      var(--background-secondary),
+      var(--background-secondary) 12px,
+      var(--background-accent) 12px,
+      var(--background-accent) 24px
+    );
+  color: var(--text-secondary);
+}
+
+.media-placeholder.is-square {
+  aspect-ratio: 4 / 3;
+}
+
+.media-placeholder .placeholder-icon {
+  font-size: 2rem;
+  color: var(--text-light);
+}
+
+.media-placeholder .placeholder-title {
+  font-weight: 700;
+  color: var(--text-primary);
+  font-size: 1.05rem;
+}
+
+.media-placeholder .placeholder-hint {
+  font-size: 0.85rem;
+  color: var(--text-light);
+}
+
+.media-placeholder code {
+  background: rgba(255, 255, 255, 0.85) !important;
+  font-size: 0.8rem !important;
+  padding: 0.15rem 0.4rem;
+  border-radius: 6px;
+}
+
+/* --- Tabbed video switcher (one player + one tab per task) --------------- */
+.video-tabs {
+  margin-top: 1.5rem;
+}
+
+.tab-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-bottom: 1.25rem;
+}
+
+.tab-button {
+  font-family: inherit;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  background: var(--background-primary);
+  border: 2px solid var(--border-color);
+  border-radius: 999px;
+  padding: 0.5rem 1.1rem;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.tab-button:hover {
+  color: var(--primary-color);
+  border-color: var(--primary-color);
+  transform: translateY(-2px);
+}
+
+.tab-button.is-active {
+  background: var(--primary-color);
+  border-color: var(--primary-color);
+  color: #fff;
+  box-shadow: var(--shadow-md);
+}
+
+.tab-button:focus-visible {
+  outline: 2px solid var(--primary-color);
+  outline-offset: 2px;
+}
+
+.tab-panel {
+  background: var(--background-primary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--shadow-md);
+  padding: 1rem;
+}
+
+.tab-panel video {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: var(--border-radius);
+}
+
+.tab-caption {
+  margin: 1rem 0 0;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--text-secondary);
+  text-align: center;
+}
+
+@media screen and (max-width: 520px) {
+  .tab-button {
+    font-size: 0.85rem;
+    padding: 0.45rem 0.85rem;
+  }
+}
+
+/* --- Notice banner ------------------------------------------------------- */
+.notice {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding: 1rem 1.25rem;
+  border-left: 4px solid var(--accent-color);
+  border-radius: var(--border-radius);
+  background: var(--background-accent);
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  text-align: left;
+}
+
+.notice i {
+  color: var(--accent-color);
+  margin-top: 0.2rem;
+}
+
+/* --- Stage / task cards -------------------------------------------------- */
+/* Explicit column counts so the layout does not depend on the container width:
+   default = 3 columns (the three stage cards), .is-two-cols = 2x2 grid
+   (the four tasks and their rollout videos). Collapses only on small screens. */
+.card-grid {
+  display: grid;
+  gap: 1.5rem;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.card-grid.is-two-cols {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+/* Narrow window / IDE preview pane: stage cards drop to 2 columns,
+   the 2x2 grids stay 2x2. */
+@media screen and (max-width: 860px) {
+  .card-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* Phone-sized viewports: everything stacks. */
+@media screen and (max-width: 520px) {
+  .card-grid,
+  .card-grid.is-two-cols {
+    grid-template-columns: 1fr;
+  }
+}
+
+.info-card {
+  background: var(--background-primary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--shadow-sm);
+  padding: 1.5rem;
+  text-align: left;
+  transition: var(--transition);
+}
+
+.info-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+}
+
+.info-card .card-eyebrow {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--primary-color);
+  margin-bottom: 0.5rem;
+}
+
+.info-card h3,
+.info-card h4 {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0 0 0.75rem;
+}
+
+.info-card p {
+  font-size: 0.95rem;
+  line-height: 1.65;
+  color: var(--text-secondary);
+  margin: 0 0 0.75rem;
+}
+
+.info-card p:last-child {
+  margin-bottom: 0;
+}
+
+.card-pick {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #047857;
+  background: #ecfdf5;
+  border-radius: 999px;
+  padding: 0.25rem 0.7rem;
+}
+
+/* Task card = caption + video placeholder */
+.task-card .task-meta {
+  font-size: 0.85rem;
+  color: var(--text-light);
+  margin-top: 0.75rem;
+}
+
+/* --- Recipe strip -------------------------------------------------------- */
+.recipe-strip {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem 0.75rem;
+  margin-top: 1rem;
+}
+
+.recipe-step {
+  background: var(--background-primary);
+  border: 1px solid var(--border-color);
+  border-radius: 999px;
+  padding: 0.5rem 1rem;
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: var(--text-primary);
+  box-shadow: var(--shadow-sm);
+}
+
+.recipe-arrow {
+  color: var(--text-light);
+}
+
+/* --- Result tables ------------------------------------------------------- */
+.table-wrapper {
+  overflow-x: auto;
+  background: var(--background-primary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--shadow-sm);
+  padding: 0.5rem;
+}
+
+table.results {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+  font-variant-numeric: tabular-nums;
+}
+
+table.results caption {
+  caption-side: top;
+  text-align: left;
+  padding: 0.75rem 0.75rem 1rem;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: var(--text-secondary);
+}
+
+table.results th,
+table.results td {
+  padding: 0.6rem 0.75rem;
+  text-align: center;
+  border-bottom: 1px solid var(--border-color);
+  white-space: nowrap;
+}
+
+table.results thead th {
+  color: var(--text-primary);
+  font-weight: 700;
+  border-bottom: 2px solid var(--text-primary);
+}
+
+table.results thead tr.group-head th {
+  border-bottom: 1px solid var(--border-color);
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+table.results th[scope="row"],
+table.results tbody td:first-child {
+  text-align: left;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+table.results tbody tr:hover {
+  background: var(--background-secondary);
+}
+
+table.results tbody tr.is-highlight {
+  background: #eff6ff;
+}
+
+/* Bold marks the best value in a column; the row tint (.is-highlight) is
+   independent of it, so a highlighted row may still contain non-best cells. */
+table.results td.best {
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+table.results .col-sep {
+  border-left: 1px solid var(--border-color);
+}
+
+/* --- Misc --------------------------------------------------------------- */
+.section-lead {
+  font-size: 1.05rem;
+  line-height: 1.8;
+  color: var(--text-secondary);
+  max-width: 52rem;
+  margin: 0 auto 2rem;
+}
+
+.section-lead p {
+  margin-bottom: 1.25rem;
+}
+
+.section-lead p:last-child {
+  margin-bottom: 0;
+}
+
+.subsection-title {
+  font-size: 1.25rem !important;
+  font-weight: 700 !important;
+  color: var(--text-primary);
+  margin-bottom: 1rem !important;
+}
+
+.text-left {
+  text-align: left;
+}
+
+@media screen and (max-width: 768px) {
+  .info-card {
+    padding: 1.25rem;
+  }
+
+  .media-placeholder {
+    padding: 1rem;
+  }
+
+  .media-placeholder .placeholder-icon {
+    font-size: 1.5rem;
+  }
+}

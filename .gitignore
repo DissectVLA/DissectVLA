@@ -1,0 +1,53 @@
+# 这个 .gitignore 服务于把 website/ 单独作为 GitHub Pages 仓库根目录的场景。
+# 仓库里应该只留「页面运行时真正需要的文件」：index.html、static/ 下被引用的
+# 资源、.nojekyll、README.md。
+
+# --- 内部笔记，不随站点公开 ---
+# README.md / static/pdfs/README.md / static/videos/README.md 都是中文开发笔记
+# （待办清单、视频命名与压缩命令、图片转换命令），只在本地留存。
+# 注意：这样 GitHub 仓库首页不会显示任何 README。若以后想放一份对外的说明，
+# 新建 README 后把下面这行的注释去掉即可单独放行。
+*.md
+# !README.md
+
+# --- macOS / 编辑器产物 ---
+.DS_Store
+._*
+.Spotlight-V100
+.Trashes
+Thumbs.db
+*.swp
+*~
+.idea/
+.vscode/
+
+# --- 视频处理的中间产物 ---
+# 剪辑导出的原片、压缩前的大文件请放在仓库外；若图方便放在本目录，
+# 用下面的命名约定即可自动排除（例如 teaser_source.mp4、task_box_raw.mp4）。
+*_source.mp4
+*_raw.mp4
+*_orig.mp4
+*.mov
+*.MOV
+*.avi
+*.mkv
+# ffmpeg 两遍编码的日志
+ffmpeg2pass-*.log*
+*.log
+
+# --- 构建 / 调试产物 ---
+# CSS source map（DevTools 才会用到，线上无意义）
+*.css.map
+*.css.map.txt
+# 未压缩的第三方库副本（页面只引用 .min 版本）
+static/js/bulma-carousel.js
+static/js/bulma-slider.js
+
+# --- 体积较大且可再生的中间图 ---
+# 由 figures/*.pdf 转出的临时文件（转换命令见 README）
+/tmp_figs/
+*.pdf.png
+
+# --- 本地预览产物 ---
+.cache/
+node_modules/
