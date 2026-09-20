@@ -262,17 +262,19 @@
       <div class="hero-body">
 
         <!-- 实验效果示意视频；完整版在页面末尾的 "Full Video" 一节。
-             不自动播放：由访客点击播放按钮触发。poster 是第 5 秒的截帧，
-             用 ffmpeg 重新生成： ffmpeg -ss 5 -i static/videos/teaser.mp4 \
-               -frames:v 1 -q:v 3 static/images/teaser_poster.jpg -->
+             不自动播放，由访客点击播放按钮触发。没有设 poster：视频首帧本身就是
+             完整的四宫格画面，preload="metadata" 会让浏览器取到首帧并显示。
+             若某些浏览器上出现短暂黑块，再生成一张封面即可：
+               ffmpeg -i static/videos/teaser.mp4 -frames:v 1 -q:v 4 \
+                 static/images/teaser_poster.jpg
+             然后给 <video> 加回 poster="static/images/teaser_poster.jpg" -->
         <video id="teaser-video" controls muted loop playsinline
-               poster="static/images/teaser_poster.jpg"
                preload="metadata" style="width:100%;border-radius:16px;">
           <source src="static/videos/teaser.mp4" type="video/mp4">
         </video>
 
         <h2 class="subtitle has-text-centered" style="margin-top:1.5rem;">
-          One-shot consecutive success of four real-robot tasks.
+          One-shot video for four real-robot tasks.
         </h2>
       </div>
     </div>
