@@ -104,9 +104,16 @@
   border-radius: var(--border-radius);
 }
 
-/* Narrower figure for single-column plots that would look oversized full width. */
+/* Width limits for figures that look oversized at full container width.
+   is-narrow: single-column plots (ablation). is-medium: photo grids (realscene). */
 .paper-figure.is-narrow {
   max-width: 620px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.paper-figure.is-medium {
+  max-width: 740px;
   margin-left: auto;
   margin-right: auto;
 }
@@ -294,7 +301,12 @@
   }
 }
 
+/* Column flex so the "Selected" badge can be pinned to the bottom edge:
+   grid items already stretch to equal height, and margin-top:auto on the last
+   child pushes it down, so the badges line up across cards. */
 .info-card {
+  display: flex;
+  flex-direction: column;
   background: var(--background-primary);
   border: 1px solid var(--border-color);
   border-radius: var(--border-radius-lg);
@@ -311,6 +323,7 @@
 
 .info-card .card-eyebrow {
   display: inline-block;
+  align-self: flex-start;
   font-size: 0.75rem;
   font-weight: 700;
   letter-spacing: 0.08em;
@@ -338,9 +351,44 @@
   margin-bottom: 0;
 }
 
+/* Short keyword bullets inside the stage cards (instead of full sentences). */
+.info-card .card-list {
+  list-style: none;
+  margin: 0 0 1rem;
+  padding: 0;
+}
+
+.info-card .card-list li {
+  position: relative;
+  padding-left: 1.1rem;
+  margin-bottom: 0.5rem;
+  font-size: 0.95rem;
+  line-height: 1.55;
+  color: var(--text-secondary);
+}
+
+.info-card .card-list li:last-child {
+  margin-bottom: 0;
+}
+
+.info-card .card-list li::before {
+  content: '';
+  position: absolute;
+  left: 0.15rem;
+  top: 0.6rem;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--primary-color);
+}
+
 .card-pick {
   display: inline-flex;
   align-items: center;
+  /* Pinned to the bottom of the card; flex-start keeps the pill hugging its
+     text instead of stretching to the full card width. */
+  margin-top: auto;
+  align-self: flex-start;
   gap: 0.4rem;
   font-size: 0.85rem;
   font-weight: 600;

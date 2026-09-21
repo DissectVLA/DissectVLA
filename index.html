@@ -76,15 +76,17 @@
   <!-- Favicon and App Icons -->
   <!-- 不设站点图标，使用浏览器默认图标。
        （模板自带的 favicon.ico 是模板作者的头像，已删除。）
-       若日后要加：把图标放到 static/images/ 并在此处加一行，例如
-         <link rel="icon" type="image/svg+xml" href="static/images/favicon.svg"> -->
+       若日后要加：把图标文件放进 static/images/，并在此处补一个 rel=icon 的
+       link 标签指向它；SVG 图标还需带上 type=image/svg+xml。
+       注意浏览器的图标缓存独立于 cookie 与页面缓存，本地看不到变化时换用
+       127.0.0.1 或无痕窗口验证。 -->
 
   <!-- Critical CSS -->
   <link rel="stylesheet" href="static/css/bulma.min.css">
   <link rel="stylesheet" href="static/css/index.css">
   <!-- ?v=N 是缓存戳：改完 project.css / project.js 后把数字 +1，
        浏览器就一定会重新下载，不用依赖硬刷新。 -->
-  <link rel="stylesheet" href="static/css/project.css?v=4">
+  <link rel="stylesheet" href="static/css/project.css?v=5">
 
   <!-- Non-critical CSS.
        模板自带的 bulma-carousel / bulma-slider 已移除：本页没有轮播和滑块。
@@ -318,9 +320,8 @@
     <div class="container is-max-desktop">
       <h2 class="title is-3 has-text-centered">Three Stages, Three Questions</h2>
       <p class="section-lead has-text-centered">
-        We decompose advantage-guided post-training into construction, calibration, and utilization, screen the first
-        two stages with offline diagnostics on a fixed dataset, and reserve real-robot training and evaluation for the
-        last stage.
+        We decompose advantage-guided post-training into <strong>construction</strong>,
+        <strong>calibration</strong>, and <strong>utilization</strong>.
       </p>
 
       <figure class="paper-figure">
@@ -339,32 +340,30 @@
         <article class="info-card">
           <span class="card-eyebrow">Stage I &middot; RQ1</span>
           <h3>Advantage construction</h3>
-          <p>
-            Four value-learning schemes (IQL, SARSA, ALOE, Monte Carlo) combined with <em>Q&minus;V</em> and
-            <em>n</em>-step TD advantages, scored by two pairwise ordering diagnostics:
-            intervention ordering <em>R</em><sub>int</sub> and progress ordering <em>R</em><sub>prog</sub>.
-          </p>
+          <ul class="card-list">
+            <li>Four critics: IQL, SARSA, ALOE, MC &mdash; each with <em>Q&minus;V</em> or <em>n</em>-step TD</li>
+            <li>Screened by two ordering diagnostics: <em>R</em><sub>int</sub>, <em>R</em><sub>prog</sub></li>
+          </ul>
           <span class="card-pick"><i class="fas fa-check" aria-hidden="true"></i><span>Selected: IQL + <em>n</em>-step TD</span></span>
         </article>
 
         <article class="info-card">
           <span class="card-eyebrow">Stage II &middot; RQ2</span>
           <h3>Advantage calibration</h3>
-          <p>
-            Raw, Global, Temporal, and Value grouping rules, compared by &eta;<sup>2</sup>, the share of advantage
-            variance explained by sub-task identity. Lower &eta;<sup>2</sup> means advantages are more comparable
-            across sub-tasks.
-          </p>
+          <ul class="card-list">
+            <li>Four grouping rules: Raw, Global, Temporal, Value</li>
+            <li>Screened by &eta;<sup>2</sup>: cross-sub-task variance share, lower is better</li>
+          </ul>
           <span class="card-pick"><i class="fas fa-check" aria-hidden="true"></i><span>Selected: Value-based grouping</span></span>
         </article>
 
         <article class="info-card">
           <span class="card-eyebrow">Stage III &middot; RQ3</span>
           <h3>Advantage utilization</h3>
-          <p>
-            Same &pi;<sub>0.5</sub> flow-matching actor, same data, same budget; only the per-sample weight changes:
-            SFT Init, source-based DAgger, continuous Weight, and hard top-half Filter.
-          </p>
+          <ul class="card-list">
+            <li>Four conditions: SFT Init, DAgger, Weight, Filter</li>
+            <li>Matched actor, data, and budget &mdash; only the sample weight differs</li>
+          </ul>
           <span class="card-pick"><i class="fas fa-check" aria-hidden="true"></i><span>Selected: continuous Weight</span></span>
         </article>
       </div>
@@ -383,16 +382,16 @@
   <section class="section hero is-light" id="diagnostics">
     <div class="container is-max-desktop">
       <h2 class="title is-3 has-text-centered">Offline Diagnostics</h2>
-      <p class="section-lead has-text-centered">
+      <!-- <p class="section-lead has-text-centered">
         Stages&nbsp;I and&nbsp;II are screened on the fixed offline dataset, before any actor update. Stage&nbsp;I asks
         which advantages recover the expected quality orderings among dataset actions; Stage&nbsp;II asks whether
         calibrated advantages stay comparable across sub-tasks.
-      </p>
+      </p> -->
 
       <h3 class="title subsection-title has-text-centered">Stage&nbsp;I (RQ1): advantage construction</h3>
       <p class="section-lead">
-        Because the compared constructions estimate different quantities, we evaluate the <em>orderings</em> they
-        induce instead of their raw values. Chance ordering is 0.5 for both diagnostics.
+        Stage&nbsp;I asks which advantages recover the expected quality orderings among dataset actions. Because the compared constructions estimate different quantities, we evaluate the <em>orderings</em> they
+        induce instead of their raw values.
       </p>
 
       <figure class="paper-figure">
@@ -421,6 +420,9 @@
 
       <div style="margin-top:3rem;">
         <h3 class="title subsection-title has-text-centered">Stage&nbsp;II (RQ2): calibration comparability</h3>
+        <p class="section-lead">
+          Stage&nbsp;II asks whether calibrated advantages stay comparable across sub-tasks.
+        </p>
         <div class="table-wrapper">
           <table class="results">
             <caption>
@@ -469,12 +471,12 @@
   <section class="section" id="tasks">
     <div class="container is-max-desktop">
       <h2 class="title is-3 has-text-centered">Real-World Tasks</h2>
-      <p class="section-lead has-text-centered">
+      <!-- <p class="section-lead has-text-centered">
         Four bimanual manipulation tasks on a platform with two 6-DoF arms and three RGB fisheye cameras. The policy
         predicts chunks of 30 end-effector actions executed at 30&nbsp;Hz.
-      </p>
+      </p> -->
 
-      <figure class="paper-figure">
+      <figure class="paper-figure is-medium">
         <img src="static/images/realscene.jpg"
              alt="Representative scenes of the four real-world manipulation tasks: Pack Phone Easy, Pack Phone Hard, Pack Box, and Refill Printer Paper."
              loading="lazy">
