@@ -232,8 +232,8 @@
                 <!-- TODO(PDF): 把论文 PDF 放到 static/pdfs/paper.pdf，然后删除 is-tbd 类 -->
                 <span class="link-block">
                   <a href="static/pdfs/paper.pdf" target="_blank" rel="noopener"
-                     class="external-link button is-normal is-rounded is-dark is-tbd"
-                     aria-disabled="true" tabindex="-1" title="Paper PDF coming soon">
+                     class="external-link button is-normal is-rounded is-dark"
+                     aria-disabled="true" tabindex="-1" title="Paper PDF">
                     <span class="icon"><i class="fas fa-file-pdf" aria-hidden="true"></i></span>
                     <span>Paper</span>
                   </a>
@@ -277,7 +277,7 @@
         </video>
 
         <h2 class="subtitle has-text-centered" style="margin-top:1.5rem;">
-          One-shot video for four real-robot tasks.
+          One-take videos for four real-robot tasks.
         </h2>
       </div>
     </div>
@@ -664,24 +664,23 @@
     <div class="container is-max-desktop">
       <h2 class="title is-3 has-text-centered">Full Video</h2>
       <p class="section-lead has-text-centered">
-        Complete walkthrough of the study: task definitions and sub-task breakdowns, the three staged comparisons,
-        and uncut real-robot rollouts.
+        Complete walkthrough of the study: the three staged comparisons, results, and uncut real-robot rollouts.
       </p>
 
       <!-- TODO(视频): 完整视频放到 static/videos/teaser_full.mp4，删除下面的
            .media-placeholder 并取消 <video> 注释。
            若文件偏大（> ~20 MB），建议改用 YouTube/Bilibili 嵌入，
            把 .publication-video + <iframe> 那段注释启用即可。 -->
-      <div class="media-placeholder">
+      <!-- <div class="media-placeholder">
         <i class="fas fa-play-circle placeholder-icon" aria-hidden="true"></i>
         <span class="placeholder-title">Full video</span>
         <span class="placeholder-hint">Coming soon &middot; <code>static/videos/teaser_full.mp4</code></span>
-      </div>
-      <!--
+      </div> -->
+      
       <video controls muted playsinline preload="metadata" style="width:100%;border-radius:16px;">
         <source src="static/videos/teaser_full.mp4" type="video/mp4">
       </video>
-      -->
+     
       <!--
       <div class="publication-video">
         <iframe src="https://www.youtube.com/embed/YOUTUBE_VIDEO_ID"
